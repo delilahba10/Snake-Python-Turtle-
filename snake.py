@@ -8,7 +8,7 @@ def playing_area():
     pen = Turtle()
     pen.ht()
     pen.speed(0)
-    pen.color('light blue')
+    pen.color('green')
     pen.begin_fill()
     pen.goto(-240,240)
     pen.goto(240,240)
@@ -18,24 +18,40 @@ def playing_area():
     pen.end_fill()
     
 class Head(Turtle):
-  def __init__(self, screen, body):
+  def __init__(self, screen, body, x, y):
     super().__init__()
-    pass
+    self.ht
+    self.speed(25)
+    self.color("black")
+    self.penup()
+    self.goto(x, y)
+    self.setheading(90)
+    self.shape("square")
+    self.alive = True
+    self.st()
+    screen.onkeypress(self.up, "w")
+    screen.onkeypress(self.down, "s")
+    screen.onkeypress(self.left, "a")
+    screen.onkeypress(self.right, "d")
 
   def up(self):
-    pass
+    self.setheading(90)
 
   def down(self):
-    pass
+    self.setheading(270)
 
   def left(self):
-    pass
+    self.setheading(180)
 
   def right(self):
-    pass
+    self.setheading(0)
 
   def move(self):
-    pass
+    self.forward(4)
+    if self.xcor() > 230 or self.xcor() < -230:
+      self.setheading(180 - self.heading())
+    if self.ycor() > 230 or self.ycor() < -230:
+      self.setheading(-self.heading())
     
   def die(self):
     pass
@@ -52,25 +68,32 @@ class Segment(Turtle):
 class Apple(Turtle):
   def __init__(self):
     super().__init__()
-    pass
+    self.hideturtle()
+    self.color('red')
+    self.shape('circle')
+    self.penup()
+    self.relocate()
+    self.showturtle()
 
   def relocate(self):
-    pass
+    self.penup()
+    x = random.randint(-220, 220)
+    y = random.randint(-220, 220)
+    self.goto(x, y)
 
 screen = Screen()
 screen.bgcolor("black")
 screen.setup(520,520)
 # Key Binding. Connects key presses and mouse clicks with function calls
 screen.listen()
+playing_area()
+body = [Head]
+player = Head(screen, body, -100, 0)
+apple = Apple()
 
-body = []
-
-
-screen.exitonclick()
-
-
-
-
-
+while player.alive:
+  player.move()
+  if player.distance(apple) < 20:
+    apple.relocate()
 
 screen.exitonclick()
