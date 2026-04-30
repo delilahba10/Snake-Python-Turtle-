@@ -58,10 +58,18 @@ class Head(Turtle):
 class Segment(Turtle):
   def __init__(self, other):
     super().__init__()
-    pass
+    self.speed(25)
+    self.color("blue")
+    self.penup()
+    self.shape("square")
+    self.goto(other.pos())
+
+    def add_segment(self):
+      body.append(self)
 
   def move(self, other):
-    pass
+    for i in range(len(body-1), 0, -1):
+      i.forward(4)
 
 class Apple(Turtle):
   def __init__(self):
@@ -94,14 +102,15 @@ while player.alive:
   player.move()
   if player.distance(apple) < 20:
     apple.relocate()
+    body.append(Segment)
 
 apple.ht()
-yertle = Turtle()
-yertle.ht()
-yertle.penup()
-yertle.goto(-125, -25)
-yertle.color("red")
-yertle.speed(0)
-yertle.write("You died", font=("Arial", 50, "normal"))
+# yertle = Turtle()
+# yertle.ht()
+# yertle.penup()
+# yertle.goto(-125, -25)
+# yertle.color("red")
+# yertle.speed(0)
+# yertle.write("You died", font=("Arial", 50, "normal"))
 
 screen.exitonclick()
