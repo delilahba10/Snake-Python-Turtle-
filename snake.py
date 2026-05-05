@@ -18,7 +18,7 @@ def playing_area():
     pen.end_fill()
     
 class Head(Turtle):
-  def __init__(self, screen, body, x, y):
+  def __init__(self, screen, x, y):
     super().__init__()
     self.ht
     self.speed(25)
@@ -58,18 +58,15 @@ class Head(Turtle):
 class Segment(Turtle):
   def __init__(self, other):
     super().__init__()
+    self.ht()
     self.speed(25)
-    self.color("blue")
+    self.color("yellow")
     self.penup()
     self.shape("square")
-    self.goto(other.pos())
-
-    def add_segment(self):
-      body.append(self)
+    self.st()
 
   def move(self, other):
-    for i in range(len(body-1), 0, -1):
-      i.forward(4)
+    self.goto(other.xcor(), other.ycor())
 
 class Apple(Turtle):
   def __init__(self):
@@ -88,23 +85,44 @@ class Apple(Turtle):
     y = random.randint(-220, 220)
     self.goto(x, y)
 
+def update():
+  global body, player, apple
+  if player.alive:
+    for i in range(len(body)-1, 0, -1):
+      body[i].move(body[i-1])
+    player.move()   
+    if player.distance(apple) < 20:
+      apple.relocate()
+      body.append(Segment(body[-1]))
+      
+    screen.ontimer(update, 100)
+
+  # if player.alive:
+  #   player.move()
+  #   body.move()
+  #   if player.distance(apple) < 20:
+  #     apple.relocate()
+  #     body.append(Segment(body[-1]))
+  #     for i in range(len(body-1), 0, -1):
+  #       i.forward(4)
+
+  screen.ontimer(update, 30)
+
+#########################################################
 screen = Screen()
 screen.bgcolor("black")
 screen.setup(520,520)
 # Key Binding. Connects key presses and mouse clicks with function calls
 screen.listen()
+screen.onkey(update, "space")
+
 playing_area()
-body = [Head]
-player = Head(screen, body, -100, 0)
+
+player = Head(screen, -100, 0)
+body = [player]
 apple = Apple()
 
-while player.alive:
-  player.move()
-  if player.distance(apple) < 20:
-    apple.relocate()
-    body.append(Segment)
-
-apple.ht()
+# apple.ht()
 # yertle = Turtle()
 # yertle.ht()
 # yertle.penup()
