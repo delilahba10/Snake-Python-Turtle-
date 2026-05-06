@@ -21,7 +21,7 @@ class Head(Turtle):
   def __init__(self, screen, x, y):
     super().__init__()
     self.ht
-    self.speed(25)
+    self.speed(0)
     self.color("blue")
     self.penup()
     self.goto(x, y)
@@ -35,21 +35,26 @@ class Head(Turtle):
     screen.onkeypress(self.right, "d")
 
   def up(self):
-    self.setheading(90)
+    if self.heading()!=-90:
+      self.setheading(90)
 
   def down(self):
-    self.setheading(270)
+    if self.heading()!=90:
+      self.setheading(270)
 
   def left(self):
-    self.setheading(180)
+    if self.heading()!=0:
+      self.setheading(180)
 
   def right(self):
-    self.setheading(0)
+    if self.heading()!=180:
+      self.setheading(0)
 
   def move(self):
-    self.forward(4)
+    self.forward(20)
     if self.xcor() > 230 or self.xcor() < -225 or self.ycor() > 230 or self.ycor() < -228:
       self.die()
+    
     
   def die(self):
     self.ht()
@@ -59,7 +64,7 @@ class Segment(Turtle):
   def __init__(self, other):
     super().__init__()
     self.ht()
-    self.speed(25)
+    self.speed(0)
     self.color("yellow")
     self.penup()
     self.shape("square")
@@ -91,22 +96,14 @@ def update():
     for i in range(len(body)-1, 0, -1):
       body[i].move(body[i-1])
     player.move()   
-    if player.distance(apple) < 20:
+    # for j in range(3, len(body)):
+    #   if player.distance(j) < 20:
+    #     player.die()
+    if player.distance(apple) < 30:
       apple.relocate()
       body.append(Segment(body[-1]))
       
-    screen.ontimer(update, 100)
-
-  # if player.alive:
-  #   player.move()
-  #   body.move()
-  #   if player.distance(apple) < 20:
-  #     apple.relocate()
-  #     body.append(Segment(body[-1]))
-  #     for i in range(len(body-1), 0, -1):
-  #       i.forward(4)
-
-  screen.ontimer(update, 30)
+  screen.ontimer(update, 120)
 
 #########################################################
 screen = Screen()
