@@ -35,7 +35,7 @@ class Head(Turtle):
     screen.onkeypress(self.right, "d")
 
   def up(self):
-    if self.heading()!=-90:
+    if self.heading()!=270:
       self.setheading(90)
 
   def down(self):
@@ -96,13 +96,24 @@ def update():
     for i in range(len(body)-1, 0, -1):
       body[i].move(body[i-1])
     player.move()   
-    # for j in range(3, len(body)):
-    #   if player.distance(j) < 20:
-    #     player.die()
+    for j in range(3, len(body)):
+      if player.distance(body[j]) < 20:
+        player.die()
     if player.distance(apple) < 30:
       apple.relocate()
       body.append(Segment(body[-1]))
-      
+  else:
+    for k in range(1, len(body)):
+      body[k].ht()
+    apple.ht() 
+    yertle = Turtle()
+    yertle.ht()
+    yertle.penup()
+    yertle.goto(-125, -25)
+    yertle.color("red")
+    yertle.speed(0)
+    yertle.write("You died", font=("Arial", 50, "normal"))
+
   screen.ontimer(update, 120)
 
 #########################################################
@@ -119,13 +130,16 @@ player = Head(screen, -100, 0)
 body = [player]
 apple = Apple()
 
-# apple.ht()
-# yertle = Turtle()
-# yertle.ht()
-# yertle.penup()
-# yertle.goto(-125, -25)
-# yertle.color("red")
-# yertle.speed(0)
-# yertle.write("You died", font=("Arial", 50, "normal"))
+# if player.alive == False:
+#   for k in range(1, len(body)):
+#     body[k].ht()
+#   apple.ht() 
+#   yertle = Turtle()
+#   yertle.ht()
+#   yertle.penup()
+#   yertle.goto(-125, -25)
+#   yertle.color("red")
+#   yertle.speed(0)
+#   yertle.write("You died", font=("Arial", 50, "normal"))
 
 screen.exitonclick()
